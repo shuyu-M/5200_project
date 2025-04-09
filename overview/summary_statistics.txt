@@ -1,0 +1,10 @@
+EARTHQUAKE DATA SUMMARY
+======================
+
+Total Records: 3551
+Date Range: 1904-01-20 to 2017-12-26
+Average Magnitude: 6.36292340555386
+Max Magnitude: 9.5
+Total Deaths: 2368367.0
+Total Injuries: 3104226.0
+Most Affected Country: CHINA
