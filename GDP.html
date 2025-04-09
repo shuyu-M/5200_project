@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.42">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Hailun Ma">
+
+<title>GDP and Earthquake Deaths Analysis</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="GDP_files/libs/clipboard/clipboard.min.js"></script>
+<script src="GDP_files/libs/quarto-html/quarto.js"></script>
+<script src="GDP_files/libs/quarto-html/popper.min.js"></script>
+<script src="GDP_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="GDP_files/libs/quarto-html/anchor.min.js"></script>
+<link href="GDP_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="GDP_files/libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="GDP_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="GDP_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="GDP_files/libs/bootstrap/bootstrap-10daa034703793678e481cc8cee6d76f.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+<script type="text/javascript">
+window.PlotlyConfig = {MathJaxConfig: 'local'};
+if (window.MathJax && window.MathJax.Hub && window.MathJax.Hub.Config) {window.MathJax.Hub.Config({SVG: {font: "STIX-Web"}});}
+if (typeof require !== 'undefined') {
+require.undef("plotly");
+requirejs.config({
+    paths: {
+        'plotly': ['https://cdn.plot.ly/plotly-2.35.2.min']
+    }
+});
+require(['plotly'], function(Plotly) {
+    window._Plotly = Plotly;
+});
+}
+</script>
+
+
+
+</head>
+
+<body>
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul class="collapse">
+  <li><a href="#question-1" id="toc-question-1" class="nav-link active" data-scroll-target="#question-1">Question 1</a></li>
+  <li><a href="#section" id="toc-section" class="nav-link" data-scroll-target="#section"></a></li>
+  <li><a href="#section-1" id="toc-section-1" class="nav-link" data-scroll-target="#section-1"></a></li>
+  <li><a href="#question-2" id="toc-question-2" class="nav-link" data-scroll-target="#question-2">Question 2</a></li>
+  <li><a href="#section-2" id="toc-section-2" class="nav-link" data-scroll-target="#section-2"></a></li>
+  <li><a href="#section-3" id="toc-section-3" class="nav-link" data-scroll-target="#section-3"></a></li>
+  <li><a href="#section-4" id="toc-section-4" class="nav-link" data-scroll-target="#section-4"></a></li>
+  </ul>
+</nav>
+</div>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">GDP and Earthquake Deaths Analysis</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Hailun Ma </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="question-1" class="level2">
+<h2 class="anchored" data-anchor-id="question-1">Question 1</h2>
+<p>Will earthquakes affect the country’s GDP development ？</p>
+<p>finds out the top 5 countries with the most frequent earthquakes</p>
+<div id="f5ac9aa8" class="cell" data-execution_count="1">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>df_eq <span class="op">=</span> pd.read_csv(<span class="st">"cleaned_data/Global_earthquake_20th_century_cleaned.csv"</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>top_countries <span class="op">=</span> df_eq[<span class="st">"region"</span>].value_counts().head(<span class="dv">5</span>).reset_index()</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>top_countries.columns <span class="op">=</span> [<span class="st">"Country"</span>, <span class="st">"Earthquake Count"</span>]</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Top5-earthquake-countries："</span>)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(top_countries)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">5</span>))</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>plt.bar(top_countries[<span class="st">"Country"</span>], top_countries[<span class="st">"Earthquake Count"</span>], color<span class="op">=</span><span class="st">'tomato'</span>)</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Top 5 Countries by Earthquake Frequency (20th Century)"</span>)</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"Country"</span>)</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Earthquake Count"</span>)</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>plt.grid(axis<span class="op">=</span><span class="st">'y'</span>, linestyle<span class="op">=</span><span class="st">'--'</span>, alpha<span class="op">=</span><span class="fl">0.7</span>)</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Top5-earthquake-countries：
+         Country  Earthquake Count
+0         Turkey                18
+1           Iran                15
+2          China                14
+3  United States                 8
+4          Japan                 8</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="GDP_files/figure-html/cell-2-output-2.png" width="757" height="468" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="section" class="level2">
+<h2 class="anchored" data-anchor-id="section"></h2>
+<p>plots the time trend of GDP for these countries + labeled years of earthquakes</p>
+<div id="e3b11d79" class="cell" data-execution_count="2">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> plotly.graph_objects <span class="im">as</span> go</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>df_gdp <span class="op">=</span> pd.read_csv(<span class="st">"cleaned_data/Global_GDP_cleaned.csv"</span>)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>df_eq <span class="op">=</span> pd.read_csv(<span class="st">"cleaned_data/Global_earthquake_20th_century_cleaned.csv"</span>)</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>display_names <span class="op">=</span> [<span class="st">"Turkey"</span>, <span class="st">"Iran"</span>, <span class="st">"China"</span>, <span class="st">"United States"</span>, <span class="st">"Japan"</span>]</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>gdp_names <span class="op">=</span> [<span class="st">"Turkiye"</span>, <span class="st">"Iran, Islamic Rep."</span>, <span class="st">"China"</span>, <span class="st">"United States"</span>, <span class="st">"Japan"</span>]</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>country_map <span class="op">=</span> <span class="bu">dict</span>(<span class="bu">zip</span>(gdp_names, display_names))</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>df_gdp <span class="op">=</span> df_gdp[df_gdp[<span class="st">"Country Name"</span>].isin(gdp_names)].copy()</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>df_gdp[<span class="st">"Display Name"</span>] <span class="op">=</span> df_gdp[<span class="st">"Country Name"</span>].<span class="bu">map</span>(country_map)</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>df_gdp[<span class="st">"GDP_log"</span>] <span class="op">=</span> np.log10(df_gdp[<span class="st">"GDP"</span>])  </span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>df_eq <span class="op">=</span> df_eq[df_eq[<span class="st">"region"</span>].isin(display_names)]</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> go.Figure()</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> gdp_name, disp_name <span class="kw">in</span> country_map.items():</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>    data <span class="op">=</span> df_gdp[df_gdp[<span class="st">"Country Name"</span>] <span class="op">==</span> gdp_name]</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>    fig.add_trace(go.Scatter(</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>        x<span class="op">=</span>data[<span class="st">"Year"</span>], y<span class="op">=</span>data[<span class="st">"GDP_log"</span>],</span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>        mode<span class="op">=</span><span class="st">"lines+markers"</span>,</span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>        name<span class="op">=</span>disp_name,</span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>        hovertemplate<span class="op">=</span>(</span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>            <span class="ss">f"&lt;b&gt;</span><span class="sc">{</span>disp_name<span class="sc">}</span><span class="ss">&lt;/b&gt;&lt;br&gt;Year: %</span><span class="ch">{{</span><span class="ss">x</span><span class="ch">}}</span><span class="ss">&lt;br&gt;GDP: $%</span><span class="ch">{{</span><span class="ss">customdata:.2e</span><span class="ch">}}</span><span class="ss">"</span></span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>        ),</span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>        customdata<span class="op">=</span>data[<span class="st">"GDP"</span>]</span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>    ))</span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>    eq_years <span class="op">=</span> df_eq[df_eq[<span class="st">"region"</span>] <span class="op">==</span> disp_name][<span class="st">"year"</span>].drop_duplicates().sort_values()</span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a>    gdp_eq_all <span class="op">=</span> data[data[<span class="st">"Year"</span>].isin(eq_years)]</span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>    gdp_eq_label <span class="op">=</span> gdp_eq_all.head(<span class="dv">3</span>)  </span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a>    fig.add_trace(go.Scatter(</span>
+<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a>        x<span class="op">=</span>gdp_eq_all[<span class="st">"Year"</span>], y<span class="op">=</span>gdp_eq_all[<span class="st">"GDP_log"</span>],</span>
+<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a>        mode<span class="op">=</span><span class="st">"markers"</span>,</span>
+<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a>        marker<span class="op">=</span><span class="bu">dict</span>(color<span class="op">=</span><span class="st">"black"</span>, size<span class="op">=</span><span class="dv">8</span>, symbol<span class="op">=</span><span class="st">"x"</span>),</span>
+<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a>        name<span class="op">=</span><span class="ss">f"</span><span class="sc">{</span>disp_name<span class="sc">}</span><span class="ss"> Earthquakes"</span>,</span>
+<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a>        hovertemplate<span class="op">=</span><span class="ss">f"&lt;b&gt;</span><span class="sc">{</span>disp_name<span class="sc">}</span><span class="ss">&lt;/b&gt;&lt;br&gt;Earthquake Year: %</span><span class="ch">{{</span><span class="ss">x</span><span class="ch">}}</span><span class="ss">&lt;extra&gt;&lt;/extra&gt;"</span>,</span>
+<span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a>        showlegend<span class="op">=</span><span class="va">False</span></span>
+<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a>    ))</span>
+<span id="cb3-44"><a href="#cb3-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-45"><a href="#cb3-45" aria-hidden="true" tabindex="-1"></a>    fig.add_trace(go.Scatter(</span>
+<span id="cb3-46"><a href="#cb3-46" aria-hidden="true" tabindex="-1"></a>        x<span class="op">=</span>gdp_eq_label[<span class="st">"Year"</span>], y<span class="op">=</span>gdp_eq_label[<span class="st">"GDP_log"</span>],</span>
+<span id="cb3-47"><a href="#cb3-47" aria-hidden="true" tabindex="-1"></a>        mode<span class="op">=</span><span class="st">"text"</span>,</span>
+<span id="cb3-48"><a href="#cb3-48" aria-hidden="true" tabindex="-1"></a>        text<span class="op">=</span>gdp_eq_label[<span class="st">"Year"</span>],</span>
+<span id="cb3-49"><a href="#cb3-49" aria-hidden="true" tabindex="-1"></a>        textposition<span class="op">=</span><span class="st">"top center"</span>,</span>
+<span id="cb3-50"><a href="#cb3-50" aria-hidden="true" tabindex="-1"></a>        textfont<span class="op">=</span><span class="bu">dict</span>(size<span class="op">=</span><span class="dv">10</span>, color<span class="op">=</span><span class="st">"black"</span>),</span>
+<span id="cb3-51"><a href="#cb3-51" aria-hidden="true" tabindex="-1"></a>        showlegend<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb3-52"><a href="#cb3-52" aria-hidden="true" tabindex="-1"></a>        hoverinfo<span class="op">=</span><span class="st">"skip"</span></span>
+<span id="cb3-53"><a href="#cb3-53" aria-hidden="true" tabindex="-1"></a>    ))</span>
+<span id="cb3-54"><a href="#cb3-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-55"><a href="#cb3-55" aria-hidden="true" tabindex="-1"></a>fig.update_layout(</span>
+<span id="cb3-56"><a href="#cb3-56" aria-hidden="true" tabindex="-1"></a>    title<span class="op">=</span><span class="st">"Log GDP Trend with Earthquake Years (Top 5 Earthquake Countries)"</span>,</span>
+<span id="cb3-57"><a href="#cb3-57" aria-hidden="true" tabindex="-1"></a>    xaxis_title<span class="op">=</span><span class="st">"Year"</span>,</span>
+<span id="cb3-58"><a href="#cb3-58" aria-hidden="true" tabindex="-1"></a>    yaxis_title<span class="op">=</span><span class="st">"log₁₀(GDP in US$)"</span>,</span>
+<span id="cb3-59"><a href="#cb3-59" aria-hidden="true" tabindex="-1"></a>    height<span class="op">=</span><span class="dv">650</span>,</span>
+<span id="cb3-60"><a href="#cb3-60" aria-hidden="true" tabindex="-1"></a>    width<span class="op">=</span><span class="dv">1100</span>,</span>
+<span id="cb3-61"><a href="#cb3-61" aria-hidden="true" tabindex="-1"></a>    template<span class="op">=</span><span class="st">"plotly_white"</span>,</span>
+<span id="cb3-62"><a href="#cb3-62" aria-hidden="true" tabindex="-1"></a>    hovermode<span class="op">=</span><span class="st">"x unified"</span></span>
+<span id="cb3-63"><a href="#cb3-63" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb3-64"><a href="#cb3-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-65"><a href="#cb3-65" aria-hidden="true" tabindex="-1"></a>fig.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>                            <div id="17cd77a9-ee25-4af5-bafe-5e7eb6b09c6b" class="plotly-graph-div" style="height:650px; width:1100px;"></div>            <script type="text/javascript">                require(["plotly"], function(Plotly) {                    window.PLOTLYENV=window.PLOTLYENV || {};                                    if (document.getElementById("17cd77a9-ee25-4af5-bafe-5e7eb6b09c6b")) {                    Plotly.newPlot(                        "17cd77a9-ee25-4af5-bafe-5e7eb6b09c6b",                        [{"customdata":[7566666666.66667,7988888888.88889,8922222222.22222,10355555555.5556,11177777777.7778,11966666666.6667,14100000000.0,15644444444.4444,17500000000.0,19466666666.6667,17863636363.6364,16166666666.6667,20650000000.0,26000000000.0,35414285714.2857,46042857142.8571,51450000000.0,58683333333.3333,65912500000.0,89616129032.2581,68823684210.5263,71180180180.1802,64369325153.3742,61803555555.5556,59937602179.8365,67232758620.6897,75673037037.037,87190081680.28,90875175808.7201,107127191328.935,150655500191.644,151034731543.624,159104772991.851,180415757851.616,130650447499.071,169319579016.25,181464408820.097,189878399894.643,275941990764.18,256395932738.435,274294623164.043,201753123806.695,240249071871.106,314595572145.767,408865430220.331,506314717661.655,557076157773.479,681321124295.914,770449132861.373,649289324627.732,776967266305.53,838785289694.35,880555885492.269,957799120008.32,938934609296.966,864313810469.009,869682881593.041,858988492853.742,778972108040.602,761005915750.925,720338490327.248,819865223976.115,907118434653.505,1118252964260.77],"hovertemplate":"\u003cb\u003eTurkey\u003c\u002fb\u003e\u003cbr\u003eYear: %{x}\u003cbr\u003eGDP: $%{customdata:.2e}","mode":"lines+markers","name":"Turkey","x":[1960,1961,1962,1963,1964,1965,1966,1967,1968,1969,1970,1971,1972,1973,1974,1975,1976,1977,1978,1979,1980,1981,1982,1983,1984,1985,1986,1987,1988,1989,1990,1991,1992,1993,1994,1995,1996,1997,1998,1999,2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023],"y":[9.87890460247346,9.902486380943557,9.950473035839355,10.015173402914659,10.048355471280585,10.077973193858657,10.14921911265538,10.194360145366767,10.243038048686294,10.289291592392738,10.251969869553221,10.208620483882601,10.31492005599242,10.414973347970818,10.549178486753565,10.663162265498077,10.711385379098452,10.76851477468654,10.81896778433952,10.952386180636633,10.837737917187486,10.852359083009762,10.808678956018793,10.79101346074803,10.77769936488765,10.827580931114374,10.878941164150712,10.940467084513836,10.958445264061682,11.02989971868697,11.177984991696572,11.17907682797731,11.201683208263367,11.256274466959418,11.116110901595256,11.228707180005452,11.258791458194406,11.278475563261958,11.440817793156128,11.40891113159848,11.438217294469009,11.304820267763414,11.380661718579768,11.497752605743743,11.611580392287692,11.704420551732769,11.745914571546873,11.833351854406777,11.886743970702895,11.812438262423992,11.89040272232429,11.923650805364371,11.9447569241769,11.981274433692487,11.972635347526634,11.936671452445367,11.939360921721379,11.933987345992366,11.891521907555852,11.88138803281262,11.857536621343565,11.913742465439544,11.95766399285788,12.048540058072406],"type":"scatter"},{"hovertemplate":"\u003cb\u003eTurkey\u003c\u002fb\u003e\u003cbr\u003eEarthquake Year: %{x}\u003cextra\u003e\u003c\u002fextra\u003e","marker":{"color":"black","size":8,"symbol":"x"},"mode":"markers","name":"Turkey Earthquakes","showlegend":false,"x":[1966,1970,1971,1975,1983,1992,1999],"y":[10.14921911265538,10.251969869553221,10.208620483882601,10.663162265498077,10.79101346074803,11.201683208263367,11.40891113159848],"type":"scatter"},{"hoverinfo":"skip","mode":"text","showlegend":false,"text":[1966.0,1970.0,1971.0],"textfont":{"color":"black","size":10},"textposition":"top center","x":[1966,1970,1971],"y":[10.14921911265538,10.251969869553221,10.208620483882601],"type":"scatter"},{"customdata":[4199134389.90099,4426949094.83828,4693566416.48845,4928628018.38944,5379845647.69637,6197319929.0429,6789938671.74918,7555383690.16502,8623172959.89439,9743089607.49835,10976245153.5842,13731802833.0379,17153463263.1023,27081698249.5137,46209092072.1331,51776222349.8812,68055295080.7542,80600122701.9652,77994316621.4828,90391877325.9312,94362275580.021,100499312749.922,125948756439.48,156365156618.242,162276728619.519,180183629599.683,209094561833.481,134009995923.166,123057861333.91,120496362916.27,124813263926.226,131637664957.524,119768691216.667,63743623231.2312,71841461172.2365,96419225744.9927,120403931883.348,113919163421.479,110276913362.445,113848450088.686,109591707801.431,126878750295.583,128626917504.398,151911222120.261,187754571246.703,224970371328.826,265602187406.199,349736591836.295,406070949550.867,414059094949.597,487069570461.36,629082257472.368,644019315003.54,500399839839.877,462284793280.825,409191686496.677,459042684192.698,489168731811.147,398880231367.268,333519146339.191,262186179355.944,383436202446.695,394362621793.035,404625655204.619],"hovertemplate":"\u003cb\u003eIran\u003c\u002fb\u003e\u003cbr\u003eYear: %{x}\u003cbr\u003eGDP: $%{customdata:.2e}","mode":"lines+markers","name":"Iran","x":[1960,1961,1962,1963,1964,1965,1966,1967,1968,1969,1970,1971,1972,1973,1974,1975,1976,1977,1978,1979,1980,1981,1982,1983,1984,1985,1986,1987,1988,1989,1990,1991,1992,1993,1994,1995,1996,1997,1998,1999,2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023],"y":[9.623159774104112,9.646104528087287,9.671502967745788,9.692726041596183,9.730769815570596,9.792203916648546,9.831865851652932,9.87825652430578,9.935667097079921,9.98869669678805,10.040453798404572,10.137727559016865,10.234351816752488,10.432675894771867,10.664727435475289,10.714130360651767,10.83286192138195,10.906335702955783,10.892062957179501,10.956129406238423,10.974798405506583,11.002163091906388,11.10019388382986,11.194139984182314,11.210256244060563,11.255715331052139,11.320342737760651,11.127137193979452,11.090109363060213,11.080973938286547,11.096260740345407,11.119380169998388,11.078343303788595,10.804436745435309,10.856375156796583,10.984163639737453,11.08064066937496,11.056596787012854,11.042484601753486,11.05632712258829,11.03977769472936,11.103388892369452,11.109331862059095,11.181589857634235,11.273590519540658,11.352125325152734,11.424231647407312,11.543741073548052,11.608601921031438,11.617062328509766,11.687590997989911,11.798707436590973,11.808898892629477,11.699317162019247,11.664909607686738,11.611926801615647,11.661853070390135,11.68945868868338,11.600842513068791,11.523120770518776,11.418609794952673,11.583693114751172,11.595895745218709,11.60705341565813],"type":"scatter"},{"hovertemplate":"\u003cb\u003eIran\u003c\u002fb\u003e\u003cbr\u003eEarthquake Year: %{x}\u003cextra\u003e\u003c\u002fextra\u003e","marker":{"color":"black","size":8,"symbol":"x"},"mode":"markers","name":"Iran Earthquakes","showlegend":false,"x":[1962,1968,1972,1978,1981,1990,1997],"y":[9.671502967745788,9.935667097079921,10.234351816752488,10.892062957179501,11.002163091906388,11.096260740345407,11.056596787012854],"type":"scatter"},{"hoverinfo":"skip","mode":"text","showlegend":false,"text":[1962.0,1968.0,1972.0],"textfont":{"color":"black","size":10},"textposition":"top center","x":[1962,1968,1972],"y":[9.671502967745788,9.935667097079921,10.234351816752488],"type":"scatter"},{"customdata":[59716249310.9742,50056685957.359,47209186415.3555,50706614526.1472,59708125203.8643,70436008642.4251,76720005491.8964,72881364882.4909,70846276051.4727,79705614854.7674,92602634891.6589,99800593790.9886,113689308020.343,138543170458.064,144188970821.072,163429530659.638,153939265947.775,174935933078.663,149540752829.268,178280594413.043,191149211575.0,195866382432.54,205089699858.779,230686747153.257,259946510957.143,309488028132.653,300758100107.246,272972974764.574,312353631207.819,347768051311.741,360857912565.966,383373318083.624,426915712715.856,444731282435.515,564321854521.013,734484834573.582,863749314718.538,961601980984.623,1029060747620.65,1094003874937.34,1211331651866.09,1339400897105.11,1470557654799.95,1660280543846.79,1955346768721.39,2285961149879.85,2752118657184.02,3550327802998.4,4594336785737.67,5101691124285.21,6087191746679.49,7551545703440.75,8532185381680.59,9570471111831.68,10475624944355.2,11061572618578.7,11233313730348.7,12310491333980.9,13894907857880.6,14279968506271.7,14687744162801.0,17820459508852.2,17881782683707.3,17794783039552.0],"hovertemplate":"\u003cb\u003eChina\u003c\u002fb\u003e\u003cbr\u003eYear: %{x}\u003cbr\u003eGDP: $%{customdata:.2e}","mode":"lines+markers","name":"China","x":[1960,1961,1962,1963,1964,1965,1966,1967,1968,1969,1970,1971,1972,1973,1974,1975,1976,1977,1978,1979,1980,1981,1982,1983,1984,1985,1986,1987,1988,1989,1990,1991,1992,1993,1994,1995,1996,1997,1998,1999,2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023],"y":[10.776092522517477,10.69946209341294,10.674026516034596,10.705064615444451,10.776033434832774,10.847794738072032,10.884908625250983,10.862616497271524,10.85031702702101,10.901488916308912,10.966623344161714,10.99913312524912,11.055719623121265,11.141585121922787,11.158932041973308,11.21333053349236,11.187349411315374,11.242879025801875,11.174759562674002,11.251104073416574,11.281372511042816,11.291959902166754,11.311943849511108,11.36302264522098,11.41488399264004,11.490643853949068,11.478217332718474,11.436119652566049,11.494646559119408,11.541289681817542,11.557336232554844,11.583621883679545,11.630342139390997,11.648097678833466,11.751526869540099,11.865982833034371,11.93638771582182,11.982995349344401,12.012441012836018,12.03901886026151,12.083263065402228,12.126910585482397,12.16748205616075,12.220181478612492,12.29122378801702,12.359068845247288,12.43966715450873,12.550268453466627,12.662222827782475,12.707714161235902,12.784416982254609,12.878035855174627,12.931060282943154,12.980933316693559,13.020179941117002,13.043816874800427,13.05050788827552,13.090275386755716,13.142855671160408,13.154727249627305,13.166955099202248,13.25091889833082,13.252410812620091,13.250292697296326],"type":"scatter"},{"hovertemplate":"\u003cb\u003eChina\u003c\u002fb\u003e\u003cbr\u003eEarthquake Year: %{x}\u003cextra\u003e\u003c\u002fextra\u003e","marker":{"color":"black","size":8,"symbol":"x"},"mode":"markers","name":"China Earthquakes","showlegend":false,"x":[1966,1969,1970,1974,1975,1976],"y":[10.884908625250983,10.901488916308912,10.966623344161714,11.158932041973308,11.21333053349236,11.187349411315374],"type":"scatter"},{"hoverinfo":"skip","mode":"text","showlegend":false,"text":[1966.0,1969.0,1970.0],"textfont":{"color":"black","size":10},"textposition":"top center","x":[1966,1969,1970],"y":[10.884908625250983,10.901488916308912,10.966623344161714],"type":"scatter"},{"customdata":[541988586206.897,561940310344.828,603639413793.103,637058551724.138,684144620689.655,741904862068.965,813032758620.69,859620034482.759,940225000000.0,1017438172413.79,1073303000000.0,1164850000000.0,1279110000000.0,1425376000000.0,1545243000000.0,1684904000000.0,1873412000000.0,2081826000000.0,2351599000000.0,2627333000000.0,2857307000000.0,3207041000000.0,3343789000000.0,3634038000000.0,4037613000000.0,4338979000000.0,4579631000000.0,4855215000000.0,5236438000000.0,5641580000000.0,5963144000000.0,6158129000000.0,6520327000000.0,6858559000000.0,7287236000000.0,7639749000000.0,8073122000000.0,8577552000000.0,9062817000000.0,9631172000000.0,10250952000000.0,10581929000000.0,10929108000000.0,11456450000000.0,12217196000000.0,13039197000000.0,13815583000000.0,14474228000000.0,14769862000000.0,14478067000000.0,15048971000000.0,15599732000000.0,16253970000000.0,16880683000000.0,17608138000000.0,18295019000000.0,18804913000000.0,19612102000000.0,20656516000000.0,21539982000000.0,21354105000000.0,23681171000000.0,26006893000000.0,27720709000000.0],"hovertemplate":"\u003cb\u003eUnited States\u003c\u002fb\u003e\u003cbr\u003eYear: %{x}\u003cbr\u003eGDP: $%{customdata:.2e}","mode":"lines+markers","name":"United States","x":[1960,1961,1962,1963,1964,1965,1966,1967,1968,1969,1970,1971,1972,1973,1974,1975,1976,1977,1978,1979,1980,1981,1982,1983,1984,1985,1986,1987,1988,1989,1990,1991,1992,1993,1994,1995,1996,1997,1998,1999,2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023],"y":[11.733990140782748,11.749690186984378,11.780777588681454,11.804179349952452,11.835147916527951,11.87034821723651,11.910108044489004,11.9343065286946,11.973231794626857,12.007508027533273,12.03072234326303,12.066270004017422,12.106907894235341,12.153929442018592,12.188996784900485,12.226575161315381,12.272633297743667,12.31844442815351,12.371363266836582,12.41951512071039,12.455956905151043,12.506104512145447,12.524238864751776,12.560389464277472,12.606124690036303,12.637387548214901,12.660830486492987,12.686208466220581,12.719035965806023,12.751400751001915,12.775475296961082,12.78944878222898,12.814269376519412,12.836232878959404,12.862562834549916,12.88307909028961,12.907041515536365,12.933363359575148,12.957263210634828,12.983679138854784,13.01076419994278,13.024564843284523,13.038584717623422,13.059050064031394,13.086971541302413,13.11525084682481,13.140369216313019,13.16059540940942,13.169376437565267,13.160710582077135,13.177506805291992,13.19311713733389,13.210959453838955,13.227390014394512,13.24571343324836,13.262332864852464,13.274271328521124,13.292524143289313,13.315057073738847,13.333245336041632,13.329481373856652,13.37440317382218,13.415088470859674,13.442804333834788],"type":"scatter"},{"hovertemplate":"\u003cb\u003eUnited States\u003c\u002fb\u003e\u003cbr\u003eEarthquake Year: %{x}\u003cextra\u003e\u003c\u002fextra\u003e","marker":{"color":"black","size":8,"symbol":"x"},"mode":"markers","name":"United States Earthquakes","showlegend":false,"x":[1964,1971,1989,1992,1994],"y":[11.835147916527951,12.066270004017422,12.751400751001915,12.814269376519412,12.862562834549916],"type":"scatter"},{"hoverinfo":"skip","mode":"text","showlegend":false,"text":[1964.0,1971.0,1989.0],"textfont":{"color":"black","size":10},"textposition":"top center","x":[1964,1971,1989],"y":[11.835147916527951,12.066270004017422,12.751400751001915],"type":"scatter"},{"customdata":[47419238274.4619,57266758179.5883,64987857541.6256,74379284603.3875,87490590817.9803,97338107605.8236,113046784179.289,132475614226.519,156897496759.128,184298841304.667,217223652719.444,245364056622.363,324933841268.585,441460582535.921,490035789970.299,532861438884.724,598883902155.605,737069290927.712,1035611588216.59,1077910077676.37,1129377244854.04,1245221410764.15,1158731426905.85,1270859919742.9,1345824500836.76,1427019759717.41,2120083812109.91,2580748422781.09,3125724434400.79,3109455047823.93,3185904656663.85,3648065760648.88,3980702922117.66,4536940479038.25,4998797547740.97,5545563663889.7,4923391533851.63,4492448605638.94,4098362709531.24,4635982224063.88,4968359075956.59,4374711694090.87,4182846045873.61,4519561645253.53,4893116005656.56,4831467035389.8,4601663122649.92,4579750920354.81,5106679115127.3,5289493117993.89,5759071769013.11,6233147172341.35,6272362996105.03,5212328181166.18,4896994405353.29,4444930651964.18,5003677627544.24,4930837369151.42,5040880939324.86,5117993853016.51,5055587093501.59,5034620784584.98,4256410760723.75,4204494802431.55],"hovertemplate":"\u003cb\u003eJapan\u003c\u002fb\u003e\u003cbr\u003eYear: %{x}\u003cbr\u003eGDP: $%{customdata:.2e}","mode":"lines+markers","name":"Japan","x":[1960,1961,1962,1963,1964,1965,1966,1967,1968,1969,1970,1971,1972,1973,1974,1975,1976,1977,1978,1979,1980,1981,1982,1983,1984,1985,1986,1987,1988,1989,1990,1991,1992,1993,1994,1995,1996,1997,1998,1999,2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023],"y":[10.675954573348307,10.757902598783566,10.812832219792325,10.87145199690148,10.941961349301671,10.988282898674106,11.053258212563254,11.12213594180833,11.195616014636203,11.265522604798177,11.336907112290023,11.389810943257048,11.511794944680913,11.644891932032783,11.69022780006726,11.72661429317107,11.777342639517752,11.867508317238999,12.015196901429078,12.032582532281282,12.052839033149503,12.095246579482998,12.06398278598151,12.104097683177626,12.12898843040245,12.154429986763436,12.326353029993548,12.411745670594563,12.494950687728478,12.492684282769375,12.50323277469664,12.562062658392541,12.59995976761193,12.656763081713711,12.698865548098981,12.743945695422186,12.692264374515348,12.65248311740815,12.61261039129731,12.666141762061669,12.696212975870443,12.640949437063204,12.621471880201478,12.655096314395564,12.689585512105594,12.68407902073822,12.662914821779522,12.660841858602769,12.708138569250128,12.723414056419779,12.760352490700797,12.794707381244825,12.797431184026442,12.717031752163821,12.68992960785208,12.647864989669737,12.699289321587209,12.692920678693199,12.702506439948593,12.709099759940653,12.703771596457763,12.701966764390246,12.629043532470192,12.623713819944355],"type":"scatter"},{"hovertemplate":"\u003cb\u003eJapan\u003c\u002fb\u003e\u003cbr\u003eEarthquake Year: %{x}\u003cextra\u003e\u003c\u002fextra\u003e","marker":{"color":"black","size":8,"symbol":"x"},"mode":"markers","name":"Japan Earthquakes","showlegend":false,"x":[1995],"y":[12.743945695422186],"type":"scatter"},{"hoverinfo":"skip","mode":"text","showlegend":false,"text":[1995.0],"textfont":{"color":"black","size":10},"textposition":"top center","x":[1995],"y":[12.743945695422186],"type":"scatter"}],                        {"template":{"data":{"barpolar":[{"marker":{"line":{"color":"white","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"white","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"#C8D4E3","linecolor":"#C8D4E3","minorgridcolor":"#C8D4E3","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"#C8D4E3","linecolor":"#C8D4E3","minorgridcolor":"#C8D4E3","startlinecolor":"#2a3f5f"},"type":"carpet"}],"choropleth":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"choropleth"}],"contourcarpet":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"contourcarpet"}],"contour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"contour"}],"heatmapgl":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"heatmapgl"}],"heatmap":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"heatmap"}],"histogram2dcontour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2dcontour"}],"histogram2d":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2d"}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"mesh3d":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"mesh3d"}],"parcoords":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"parcoords"}],"pie":[{"automargin":true,"type":"pie"}],"scatter3d":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatter3d"}],"scattercarpet":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattercarpet"}],"scattergeo":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergeo"}],"scattergl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergl"}],"scattermapbox":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattermapbox"}],"scatterpolargl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolargl"}],"scatterpolar":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolar"}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"scatterternary":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterternary"}],"surface":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"surface"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}]},"layout":{"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"autotypenumbers":"strict","coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]],"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]},"colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"geo":{"bgcolor":"white","lakecolor":"white","landcolor":"white","showlakes":true,"showland":true,"subunitcolor":"#C8D4E3"},"hoverlabel":{"align":"left"},"hovermode":"closest","mapbox":{"style":"light"},"margin":{"b":0,"l":0,"r":0,"t":30},"paper_bgcolor":"white","plot_bgcolor":"white","polar":{"angularaxis":{"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":""},"bgcolor":"white","radialaxis":{"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":""}},"scene":{"xaxis":{"backgroundcolor":"white","gridcolor":"#DFE8F3","gridwidth":2,"linecolor":"#EBF0F8","showbackground":true,"ticks":"","zerolinecolor":"#EBF0F8"},"yaxis":{"backgroundcolor":"white","gridcolor":"#DFE8F3","gridwidth":2,"linecolor":"#EBF0F8","showbackground":true,"ticks":"","zerolinecolor":"#EBF0F8"},"zaxis":{"backgroundcolor":"white","gridcolor":"#DFE8F3","gridwidth":2,"linecolor":"#EBF0F8","showbackground":true,"ticks":"","zerolinecolor":"#EBF0F8"}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"ternary":{"aaxis":{"gridcolor":"#DFE8F3","linecolor":"#A2B1C6","ticks":""},"baxis":{"gridcolor":"#DFE8F3","linecolor":"#A2B1C6","ticks":""},"bgcolor":"white","caxis":{"gridcolor":"#DFE8F3","linecolor":"#A2B1C6","ticks":""}},"title":{"x":0.05},"xaxis":{"automargin":true,"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":"","title":{"standoff":15},"zerolinecolor":"#EBF0F8","zerolinewidth":2},"yaxis":{"automargin":true,"gridcolor":"#EBF0F8","linecolor":"#EBF0F8","ticks":"","title":{"standoff":15},"zerolinecolor":"#EBF0F8","zerolinewidth":2}}},"title":{"text":"Log GDP Trend with Earthquake Years (Top 5 Earthquake Countries)"},"xaxis":{"title":{"text":"Year"}},"yaxis":{"title":{"text":"log\u2081\u2080(GDP in US$)"}},"height":650,"width":1100,"hovermode":"x unified"},                        {"responsive": true}                    ).then(function(){
+                            
+var gd = document.getElementById('17cd77a9-ee25-4af5-bafe-5e7eb6b09c6b');
+var x = new MutationObserver(function (mutations, observer) {{
+        var display = window.getComputedStyle(gd).display;
+        if (!display || display === 'none') {{
+            console.log([gd, 'removed!']);
+            Plotly.purge(gd);
+            observer.disconnect();
+        }}
+}});
+
+// Listen for the removal of the full notebook cells
+var notebookContainer = gd.closest('#notebook-container');
+if (notebookContainer) {{
+    x.observe(notebookContainer, {childList: true});
+}}
+
+// Listen for the clearing of the current output cell
+var outputEl = gd.closest('.output');
+if (outputEl) {{
+    x.observe(outputEl, {childList: true});
+}}
+
+                        })                };                });            </script>        </div>
+</div>
+</div>
+</section>
+<section id="section-1" class="level2">
+<h2 class="anchored" data-anchor-id="section-1"></h2>
+<p>The chart illustrates the log-scaled GDP trends of the five countries that experienced the most earthquakes in the 20th century: Turkey, Iran, China, the United States, and Japan</p>
+<p>For Turkey, the GDP trend from 1960 to the early 1990s showed modest growth. However, in the late 1990s, a noticeable flattening is observed around 1999, coinciding with the devastating İzmit earthquake</p>
+<p>In Iran, the GDP trajectory is more volatile than other countries. Significant earthquakes occurred in the 1970s, 1990, and early 2000s. While some dips in GDP growth align with earthquake years (e.g., 1990), it is difficult to isolate earthquakes as the primary cause, given overlapping political and economic events such as sanctions and oil market fluctuations.</p>
+<p>China displays a strong and consistent upward trend in GDP across the decades, including during years with major earthquakes, such as the 1976 Tangshan earthquake and the 2008 Sichuan earthquake. There is no clear downturn in GDP growth following these events, suggesting a high level of economic resilience and capacity for rapid recovery</p>
+<p>The United States also maintains a stable and steadily rising GDP trend, with earthquakes such as the 1989 Loma Prieta and 1994 Northridge events causing no visible deviation in the growth trajectory. This may reflect the country’s diversified economy and robust disaster response infrastructure.</p>
+<p>Japan, on the other hand, shows a few distinct deviations that align with major seismic events. Notably, in 1995, GDP growth flattens in the aftermath of the Great Hanshin (Kobe) earthquake. Similarly, a small disruption is visible around 2011, the year of the Tohoku earthquake and tsunami</p>
+<p>Overall, while some short-term economic disruptions are observable—especially in Turkey and Japan—most countries exhibit resilient long-term GDP growth following earthquakes. The use of a logarithmic scale helps reveal relative changes across countries with vastly different GDP sizes, and makes subtle year-over-year variations more visible. This suggests that while earthquakes can impose temporary economic costs, macroeconomic recovery is common, particularly in nations with stronger infrastructure and economic foundations.</p>
+</section>
+<section id="question-2" class="level2">
+<h2 class="anchored" data-anchor-id="question-2">Question 2</h2>
+<p>Is there a relationship between the number of deaths from earthquakes and a country’s GDP (do countries with lower GDPs have higher death rates due to poor infrastructure and poor disaster response?)</p>
+<p>Find the countries with low GDP and well-documented earthquake data</p>
+<div id="46ad9be9" class="cell" data-execution_count="3">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>df_gdp <span class="op">=</span> pd.read_csv(<span class="st">"cleaned_data/Global_GDP_cleaned.csv"</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>latest_year <span class="op">=</span> df_gdp[<span class="st">"Year"</span>].<span class="bu">max</span>()</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>latest_gdp <span class="op">=</span> df_gdp[df_gdp[<span class="st">"Year"</span>] <span class="op">==</span> latest_year]</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>lowest_gdp_countries <span class="op">=</span> latest_gdp.dropna(subset<span class="op">=</span>[<span class="st">"GDP"</span>]).sort_values(by<span class="op">=</span><span class="st">"GDP"</span>).head(<span class="dv">5</span>)</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Lowest 5 GDP Countries in </span><span class="sc">{</span>latest_year<span class="sc">}</span><span class="ss">:"</span>)</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(lowest_gdp_countries[[<span class="st">"Country Name"</span>, <span class="st">"Country Code"</span>, <span class="st">"Year"</span>, <span class="st">"GDP"</span>]])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Lowest 5 GDP Countries in 2023:
+           Country Name Country Code  Year           GDP
+14290            Tuvalu          TUV  2023  6.228031e+07
+14230             Nauru          NRU  2023  1.541703e+08
+14208  Marshall Islands          MHL  2023  2.593000e+08
+14180          Kiribati          KIR  2023  2.792089e+08
+14239             Palau          PLW  2023  2.818491e+08</code></pre>
+</div>
+</div>
+</section>
+<section id="section-2" class="level2">
+<h2 class="anchored" data-anchor-id="section-2"></h2>
+<p>Find out in which year the 5 countries with the lowest GDP had major earthquakes and death tolls</p>
+<div id="43d087e1" class="cell" data-execution_count="4">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>df_gdp <span class="op">=</span> pd.read_csv(<span class="st">"cleaned_data/Global_GDP_cleaned.csv"</span>)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>df_eq <span class="op">=</span> pd.read_csv(<span class="st">"cleaned_data/Global_earthquake_20th_century_cleaned.csv"</span>)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>eq_years_full <span class="op">=</span> df_eq[[<span class="st">"region"</span>, <span class="st">"year"</span>, <span class="st">"richter"</span>, <span class="st">"deaths"</span>]].dropna()</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>gdp_eq_full <span class="op">=</span> pd.merge(</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    eq_years_full,</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    df_gdp,</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>    left_on<span class="op">=</span>[<span class="st">"region"</span>, <span class="st">"year"</span>],</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>    right_on<span class="op">=</span>[<span class="st">"Country Name"</span>, <span class="st">"Year"</span>],</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>    how<span class="op">=</span><span class="st">"inner"</span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>gdp_eq_complete <span class="op">=</span> gdp_eq_full[[<span class="st">"region"</span>, <span class="st">"year"</span>, <span class="st">"GDP"</span>, <span class="st">"richter"</span>, <span class="st">"deaths"</span>]].dropna()</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>gdp_eq_complete <span class="op">=</span> gdp_eq_complete.sort_values(by<span class="op">=</span>[<span class="st">"region"</span>, <span class="st">"year"</span>])</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>avg_gdp_complete <span class="op">=</span> (</span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>    gdp_eq_complete.groupby(<span class="st">"region"</span>)[<span class="st">"GDP"</span>]</span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>    .mean()</span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>    .reset_index()</span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>    .sort_values(by<span class="op">=</span><span class="st">"GDP"</span>)</span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>low_gdp_complete_countries <span class="op">=</span> avg_gdp_complete.head(<span class="dv">5</span>)[<span class="st">"region"</span>].tolist()</span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>gdp_eq_complete_low <span class="op">=</span> gdp_eq_complete[</span>
+<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>    gdp_eq_complete[<span class="st">"region"</span>].isin(low_gdp_complete_countries)</span>
+<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"5 earthquake countries with lower GDP："</span>)</span>
+<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(gdp_eq_complete_low)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>5 earthquake countries with lower GDP：
+         region  year           GDP  richter   deaths
+1         Chile  1960  4.110000e+09      9.5   1655.0
+19  El Salvador  1986  3.771663e+09      5.5   1000.0
+12    Guatemala  1976  4.365300e+09      7.5  23000.0
+0       Morocco  1960  2.037155e+09      5.7  12000.0
+8     Nicaragua  1972  8.785700e+08      6.2   5000.0</code></pre>
+</div>
+</div>
+<div id="163fea01" class="cell" data-execution_count="5">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.ticker <span class="im">as</span> ticker</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>df_gdp <span class="op">=</span> pd.read_csv(<span class="st">"cleaned_data/Global_GDP_cleaned.csv"</span>)</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>df_eq <span class="op">=</span> pd.read_csv(<span class="st">"cleaned_data/Global_earthquake_20th_century_cleaned.csv"</span>)</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>eq_years_full <span class="op">=</span> df_eq[[<span class="st">"region"</span>, <span class="st">"year"</span>, <span class="st">"richter"</span>, <span class="st">"deaths"</span>]].dropna()</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>gdp_eq_full <span class="op">=</span> pd.merge(</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>    eq_years_full,</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>    df_gdp,</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>    left_on<span class="op">=</span>[<span class="st">"region"</span>, <span class="st">"year"</span>],</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>    right_on<span class="op">=</span>[<span class="st">"Country Name"</span>, <span class="st">"Year"</span>],</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>    how<span class="op">=</span><span class="st">"inner"</span></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>gdp_eq_complete <span class="op">=</span> gdp_eq_full[[<span class="st">"region"</span>, <span class="st">"year"</span>, <span class="st">"GDP"</span>, <span class="st">"richter"</span>, <span class="st">"deaths"</span>]].dropna()</span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>avg_gdp_complete <span class="op">=</span> (</span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>    gdp_eq_complete.groupby(<span class="st">"region"</span>)[<span class="st">"GDP"</span>]</span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>    .mean()</span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>    .reset_index()</span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>    .sort_values(by<span class="op">=</span><span class="st">"GDP"</span>)</span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a>low_gdp_complete_countries <span class="op">=</span> avg_gdp_complete.head(<span class="dv">5</span>)[<span class="st">"region"</span>].tolist()</span>
+<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a>gdp_eq_complete_low <span class="op">=</span> gdp_eq_complete[</span>
+<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a>    gdp_eq_complete[<span class="st">"region"</span>].isin(low_gdp_complete_countries)</span>
+<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-33"><a href="#cb8-33" aria-hidden="true" tabindex="-1"></a>labels <span class="op">=</span> gdp_eq_complete_low[<span class="st">"region"</span>] <span class="op">+</span> <span class="st">" ("</span> <span class="op">+</span> gdp_eq_complete_low[<span class="st">"year"</span>].astype(<span class="bu">str</span>) <span class="op">+</span> <span class="st">")"</span></span>
+<span id="cb8-34"><a href="#cb8-34" aria-hidden="true" tabindex="-1"></a>gdp_values <span class="op">=</span> gdp_eq_complete_low[<span class="st">"GDP"</span>]</span>
+<span id="cb8-35"><a href="#cb8-35" aria-hidden="true" tabindex="-1"></a>deaths <span class="op">=</span> gdp_eq_complete_low[<span class="st">"deaths"</span>]</span>
+<span id="cb8-36"><a href="#cb8-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-37"><a href="#cb8-37" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">6</span>))</span>
+<span id="cb8-38"><a href="#cb8-38" aria-hidden="true" tabindex="-1"></a>bars <span class="op">=</span> plt.barh(labels, gdp_values, color<span class="op">=</span><span class="st">"steelblue"</span>)</span>
+<span id="cb8-39"><a href="#cb8-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-40"><a href="#cb8-40" aria-hidden="true" tabindex="-1"></a>formatter <span class="op">=</span> ticker.FuncFormatter(<span class="kw">lambda</span> x, pos: <span class="ss">f"$</span><span class="sc">{</span>x<span class="op">/</span><span class="fl">1e9</span><span class="sc">:.2f}</span><span class="ss">B"</span> <span class="cf">if</span> x <span class="op">&gt;=</span> <span class="fl">1e9</span> <span class="cf">else</span> <span class="ss">f"$</span><span class="sc">{</span>x<span class="op">/</span><span class="fl">1e6</span><span class="sc">:.0f}</span><span class="ss">M"</span>)</span>
+<span id="cb8-41"><a href="#cb8-41" aria-hidden="true" tabindex="-1"></a>plt.gca().xaxis.set_major_formatter(formatter)</span>
+<span id="cb8-42"><a href="#cb8-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-43"><a href="#cb8-43" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> bar, death <span class="kw">in</span> <span class="bu">zip</span>(bars, deaths):</span>
+<span id="cb8-44"><a href="#cb8-44" aria-hidden="true" tabindex="-1"></a>    width <span class="op">=</span> bar.get_width()</span>
+<span id="cb8-45"><a href="#cb8-45" aria-hidden="true" tabindex="-1"></a>    plt.text(width <span class="op">+</span> width <span class="op">*</span> <span class="fl">0.02</span>, bar.get_y() <span class="op">+</span> bar.get_height() <span class="op">/</span> <span class="dv">2</span>,</span>
+<span id="cb8-46"><a href="#cb8-46" aria-hidden="true" tabindex="-1"></a>             <span class="ss">f"</span><span class="sc">{</span><span class="bu">int</span>(death)<span class="sc">:,}</span><span class="ss"> deaths"</span>, va<span class="op">=</span><span class="st">"center"</span>, fontsize<span class="op">=</span><span class="dv">9</span>)</span>
+<span id="cb8-47"><a href="#cb8-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-48"><a href="#cb8-48" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"GDP in Earthquake Year (US$)"</span>)</span>
+<span id="cb8-49"><a href="#cb8-49" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"GDP vs Earthquake Deaths (Lowest 5 GDP Countries)"</span>)</span>
+<span id="cb8-50"><a href="#cb8-50" aria-hidden="true" tabindex="-1"></a>plt.grid(axis<span class="op">=</span><span class="st">"x"</span>, linestyle<span class="op">=</span><span class="st">"--"</span>, alpha<span class="op">=</span><span class="fl">0.5</span>)</span>
+<span id="cb8-51"><a href="#cb8-51" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb8-52"><a href="#cb8-52" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="GDP_files/figure-html/cell-6-output-1.png" width="950" height="564" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="section-3" class="level2">
+<h2 class="anchored" data-anchor-id="section-3"></h2>
+<p>Horizontal bars of GDP for the top 5 countries with the highest GDP in the year of the earthquake, by peer comparison</p>
+<div id="a3136c1a" class="cell" data-execution_count="6">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.ticker <span class="im">as</span> ticker</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>df_gdp <span class="op">=</span> pd.read_csv(<span class="st">"cleaned_data/Global_GDP_cleaned.csv"</span>)</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>df_eq <span class="op">=</span> pd.read_csv(<span class="st">"cleaned_data/Global_earthquake_20th_century_cleaned.csv"</span>)</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>eq_years_full <span class="op">=</span> df_eq[[<span class="st">"region"</span>, <span class="st">"year"</span>, <span class="st">"richter"</span>, <span class="st">"deaths"</span>]].dropna()</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>gdp_eq_full <span class="op">=</span> pd.merge(</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>    eq_years_full,</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>    df_gdp,</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>    left_on<span class="op">=</span>[<span class="st">"region"</span>, <span class="st">"year"</span>],</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>    right_on<span class="op">=</span>[<span class="st">"Country Name"</span>, <span class="st">"Year"</span>],</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>    how<span class="op">=</span><span class="st">"inner"</span></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>gdp_eq_complete <span class="op">=</span> gdp_eq_full[[<span class="st">"region"</span>, <span class="st">"year"</span>, <span class="st">"GDP"</span>, <span class="st">"richter"</span>, <span class="st">"deaths"</span>]].dropna()</span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>avg_gdp_complete_high <span class="op">=</span> (</span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>    gdp_eq_complete.groupby(<span class="st">"region"</span>)[<span class="st">"GDP"</span>]</span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>    .mean()</span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>    .reset_index()</span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>    .sort_values(by<span class="op">=</span><span class="st">"GDP"</span>, ascending<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>high_gdp_countries <span class="op">=</span> avg_gdp_complete_high.head(<span class="dv">5</span>)[<span class="st">"region"</span>].tolist()</span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a>gdp_eq_complete_high <span class="op">=</span> gdp_eq_complete[</span>
+<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a>    gdp_eq_complete[<span class="st">"region"</span>].isin(high_gdp_countries)</span>
+<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a>labels_high <span class="op">=</span> gdp_eq_complete_high[<span class="st">"region"</span>] <span class="op">+</span> <span class="st">" ("</span> <span class="op">+</span> gdp_eq_complete_high[<span class="st">"year"</span>].astype(<span class="bu">str</span>) <span class="op">+</span> <span class="st">")"</span></span>
+<span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a>gdp_values_high <span class="op">=</span> gdp_eq_complete_high[<span class="st">"GDP"</span>]</span>
+<span id="cb9-32"><a href="#cb9-32" aria-hidden="true" tabindex="-1"></a>deaths_high <span class="op">=</span> gdp_eq_complete_high[<span class="st">"deaths"</span>]</span>
+<span id="cb9-33"><a href="#cb9-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-34"><a href="#cb9-34" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">6</span>))</span>
+<span id="cb9-35"><a href="#cb9-35" aria-hidden="true" tabindex="-1"></a>bars <span class="op">=</span> plt.barh(labels_high, gdp_values_high, color<span class="op">=</span><span class="st">"seagreen"</span>)</span>
+<span id="cb9-36"><a href="#cb9-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-37"><a href="#cb9-37" aria-hidden="true" tabindex="-1"></a>formatter <span class="op">=</span> ticker.FuncFormatter(<span class="kw">lambda</span> x, pos: <span class="ss">f"$</span><span class="sc">{</span>x<span class="op">/</span><span class="fl">1e9</span><span class="sc">:.2f}</span><span class="ss">B"</span> <span class="cf">if</span> x <span class="op">&gt;=</span> <span class="fl">1e9</span> <span class="cf">else</span> <span class="ss">f"$</span><span class="sc">{</span>x<span class="op">/</span><span class="fl">1e6</span><span class="sc">:.0f}</span><span class="ss">M"</span>)</span>
+<span id="cb9-38"><a href="#cb9-38" aria-hidden="true" tabindex="-1"></a>plt.gca().xaxis.set_major_formatter(formatter)</span>
+<span id="cb9-39"><a href="#cb9-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-40"><a href="#cb9-40" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> bar, death <span class="kw">in</span> <span class="bu">zip</span>(bars, deaths_high):</span>
+<span id="cb9-41"><a href="#cb9-41" aria-hidden="true" tabindex="-1"></a>    width <span class="op">=</span> bar.get_width()</span>
+<span id="cb9-42"><a href="#cb9-42" aria-hidden="true" tabindex="-1"></a>    plt.text(width <span class="op">+</span> width <span class="op">*</span> <span class="fl">0.02</span>, bar.get_y() <span class="op">+</span> bar.get_height() <span class="op">/</span> <span class="dv">2</span>,</span>
+<span id="cb9-43"><a href="#cb9-43" aria-hidden="true" tabindex="-1"></a>             <span class="ss">f"</span><span class="sc">{</span><span class="bu">int</span>(death)<span class="sc">:,}</span><span class="ss"> deaths"</span>, va<span class="op">=</span><span class="st">"center"</span>, fontsize<span class="op">=</span><span class="dv">9</span>)</span>
+<span id="cb9-44"><a href="#cb9-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-45"><a href="#cb9-45" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"GDP in Earthquake Year (US$)"</span>)</span>
+<span id="cb9-46"><a href="#cb9-46" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"GDP vs Earthquake Deaths (Highest 5 GDP Countries)"</span>)</span>
+<span id="cb9-47"><a href="#cb9-47" aria-hidden="true" tabindex="-1"></a>plt.grid(axis<span class="op">=</span><span class="st">"x"</span>, linestyle<span class="op">=</span><span class="st">"--"</span>, alpha<span class="op">=</span><span class="fl">0.5</span>)</span>
+<span id="cb9-48"><a href="#cb9-48" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb9-49"><a href="#cb9-49" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="GDP_files/figure-html/cell-7-output-1.png" width="950" height="564" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="section-4" class="level2">
+<h2 class="anchored" data-anchor-id="section-4"></h2>
+<p>Low-GDP countries, such as Guatemala (1976) and Morocco (1960), experienced devastating death tolls of 23,000 and 12,000 respectively, despite relatively moderate earthquake magnitudes. These countries had earthquake-year GDPs below $5 billion, and often lacked robust infrastructure or effective disaster response systems.</p>
+<p>In contrast, high GDP countries like Japan and the United States show significantly lower death counts, even when hit by powerful earthquakes. For instance, Japan (1995), despite facing a magnitude 7.2 quake, reported 6,434 deaths which is a high number, but relatively modest given the country’s population size and economic scale. The USA (1994) reported only 57 deaths from a magnitude 6.9 quake, backed by over $7 trillion in GDP at the time.</p>
+<p>This contrast underscores the relationship between economic capacity and disaster resilience: higher GDP nations tend to have stronger building codes, early warning systems, and emergency response capabilities, all of which contribute to lower mortality rates.</p>
+<p>Overall, this visual and numeric comparison supports the hypothesis that earthquakes are far deadlier in low GDP countries, not necessarily due to the strength of the quake itself, but because of systemic vulnerabilities in infrastructure, preparedness, and emergency response.</p>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
