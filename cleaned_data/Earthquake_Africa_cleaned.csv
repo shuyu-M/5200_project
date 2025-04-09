@@ -1,0 +1,330 @@
+country_name,admin1_name,latitude,longitude,aggregation,indicator,value
+Afghanistan,Badakhshan,37.0338,71.43,max,earthquake,10.2
+Afghanistan,Badghis,35.1353,63.7334,max,earthquake,5.96
+Afghanistan,Baghlan,35.8025,68.9114,max,earthquake,8.47
+Afghanistan,Balkh,36.6645,67.0787,max,earthquake,9.15
+Afghanistan,Bamyan,34.8046,67.2373,max,earthquake,9.4
+Afghanistan,Daykundi,33.7044,66.2189,max,earthquake,6.69
+Afghanistan,Farah,32.6062,62.304,max,earthquake,6.91
+Afghanistan,Faryab,36.0614,64.8706,max,earthquake,6.68
+Afghanistan,Ghazni,33.3211,67.812,max,earthquake,7.24
+Afghanistan,Ghor,34.1786,64.9307,max,earthquake,7.08
+Afghanistan,Hilmand,31.1575,64.0492,max,earthquake,7.56
+Afghanistan,Hirat,34.1955,62.1344,max,earthquake,7.54
+Afghanistan,Jawzjan,36.8271,65.8588,max,earthquake,8.64
+Afghanistan,Kabul,34.5527,69.3376,max,earthquake,7.58
+Afghanistan,Kandahar,31.0493,65.7034,max,earthquake,8.25
+Afghanistan,Kapisa,34.9568,69.6258,max,earthquake,7.37
+Afghanistan,Khost,33.3746,69.822,max,earthquake,7.2
+Afghanistan,Kunar,34.9641,71.0802,max,earthquake,7.72
+Afghanistan,Kunduz,36.8401,68.7449,max,earthquake,7.95
+Afghanistan,Laghman,34.7693,70.1638,max,earthquake,7.59
+Afghanistan,Logar,34.0121,69.1631,max,earthquake,8.26
+Afghanistan,Maidan Wardak,34.3033,68.2174,max,earthquake,7.86
+Afghanistan,Nangarhar,34.2743,70.4529,max,earthquake,7.74
+Afghanistan,Nimroz,30.8042,62.3194,max,earthquake,7.18
+Afghanistan,Nuristan,35.4148,70.7791,max,earthquake,9.05
+Afghanistan,Paktika,32.4839,68.7351,max,earthquake,6.88
+Afghanistan,Paktya,33.6295,69.3852,max,earthquake,8.26
+Afghanistan,Panjsher,35.4474,69.798,max,earthquake,8.58
+Afghanistan,Parwan,34.9619,68.887,max,earthquake,7.8
+Afghanistan,Samangan,35.9727,67.7027,max,earthquake,8.4
+Afghanistan,Sar E Pul,35.7161,66.1359,max,earthquake,7.78
+Afghanistan,Takhar,36.7003,69.779,max,earthquake,10.05
+Afghanistan,Uruzgan,32.8545,66.057,max,earthquake,6.27
+Afghanistan,Zabul,32.2009,67.1469,max,earthquake,7.24
+Burundi,Bubanza,-3.125,29.4038,max,earthquake,8.02
+Burundi,Bujumbura Mairie,-3.3583,29.375,max,earthquake,7.61
+Burundi,Bujumbura Rural,-3.4464,29.4524,max,earthquake,8.02
+Burundi,Bururi,-3.863,29.6804,max,earthquake,6.71
+Burundi,Cankuzo,-3.1456,30.5926,max,earthquake,5.48
+Burundi,Cibitoke,-2.8296,29.2295,max,earthquake,7.49
+Burundi,Gitega,-3.488,29.921,max,earthquake,6.6
+Burundi,Karuzi,-3.1395,30.1238,max,earthquake,5.93
+Burundi,Kayanza,-3.01,29.6651,max,earthquake,6.61
+Burundi,Kirundo,-2.5417,30.1606,max,earthquake,5.6
+Burundi,Makamba,-4.2149,29.8008,max,earthquake,7.8
+Burundi,Muramvya,-3.2708,29.6514,max,earthquake,6.79
+Burundi,Muyinga,-2.788,30.3423,max,earthquake,5.54
+Burundi,Mwaro,-3.4842,29.7196,max,earthquake,6.62
+Burundi,Ngozi,-2.8763,29.9271,max,earthquake,6.15
+Burundi,Rumonge,-3.8325,29.4632,max,earthquake,7.25
+Burundi,Rutana,-3.872,30.0828,max,earthquake,7.15
+Burundi,Ruyigi,-3.4609,30.3104,max,earthquake,6.28
+Cameroon,Adamawa,6.855,13.1399,max,earthquake,0.0
+Cameroon,Centre,4.668,11.823,max,earthquake,0.0
+Cameroon,East,3.8071,14.1987,max,earthquake,7.32
+Cameroon,Far-North,10.9703,14.5422,max,earthquake,0.0
+Cameroon,Littoral,4.264,10.1195,max,earthquake,0.0
+Cameroon,North,8.4801,13.9254,max,earthquake,0.0
+Cameroon,North-West,6.3572,10.3616,max,earthquake,0.0
+Cameroon,South,2.7611,11.5719,max,earthquake,4.05
+Cameroon,South-West,5.2069,9.2969,max,earthquake,0.0
+Cameroon,West,5.502,10.6483,max,earthquake,0.0
+Central African Republic,Bamingui-Bangoran,8.4178,20.5787,max,earthquake,0.0
+Central African Republic,Bangui,4.3889,18.5694,max,earthquake,4.47
+Central African Republic,Basse-Kotto,4.9004,21.3598,max,earthquake,4.16
+Central African Republic,Haut-Mbomou,6.3028,25.58,max,earthquake,0.0
+Central African Republic,Haute-Kotto,7.4631,22.9197,max,earthquake,0.0
+Central African Republic,Kémo,5.803,19.296,max,earthquake,5.07
+Central African Republic,Lobaye,4.1761,17.6142,max,earthquake,4.14
+Central African Republic,Mambéré-Kadéï,4.5644,15.9161,max,earthquake,4.43
+Central African Republic,Mbomou,5.5057,23.389,max,earthquake,0.0
+Central African Republic,Nana-Gribizi,7.1936,19.3324,max,earthquake,0.0
+Central African Republic,Nana-Mambéré,5.6977,15.3805,max,earthquake,0.0
+Central African Republic,Ombella M'Poko,5.1185,17.9927,max,earthquake,5.09
+Central African Republic,Ouaka,6.1269,20.7487,max,earthquake,4.74
+Central African Republic,Ouham,6.9148,17.8908,max,earthquake,0.0
+Central African Republic,Ouham Pendé,6.7204,16.1399,max,earthquake,0.0
+Central African Republic,Sangha-Mbaéré,3.4796,16.2855,max,earthquake,5.51
+Central African Republic,Vakaga,9.8054,22.5084,max,earthquake,0.0
+Colombia,Amazonas,-1.5236,-71.5086,max,earthquake,10.5
+Colombia,Antioquia,6.9225,-75.5642,max,earthquake,9.17
+Colombia,Arauca,6.5636,-70.9685,max,earthquake,8.46
+Colombia,"Archipiélago de San Andrés, Providencia y Santa Catalina",12.9375,-81.5417,max,earthquake,6.66
+Colombia,Atlántico,10.6747,-74.963,max,earthquake,5.59
+Colombia,"Bogotá, D.C.",4.3333,-74.1779,max,earthquake,8.14
+Colombia,Bolívar,8.7419,-74.5073,max,earthquake,8.07
+Colombia,Boyacá,5.7761,-73.105,max,earthquake,8.46
+Colombia,Caldas,5.344,-75.3051,max,earthquake,8.3
+Colombia,Caquetá,0.7997,-73.9609,max,earthquake,9.0
+Colombia,Casanare,5.4043,-71.6001,max,earthquake,8.26
+Colombia,Cauca,2.3914,-76.8208,max,earthquake,9.26
+Colombia,Cesar,9.5381,-73.5259,max,earthquake,6.29
+Colombia,Chocó,5.9565,-76.927,max,earthquake,9.3
+Colombia,Cundinamarca,4.821,-74.0983,max,earthquake,8.14
+Colombia,Córdoba,8.3589,-75.7909,max,earthquake,8.28
+Colombia,Guainía,2.7263,-68.8201,max,earthquake,6.6
+Colombia,Guaviare,1.9244,-72.1228,max,earthquake,7.95
+Colombia,Huila,2.5617,-75.5915,max,earthquake,9.36
+Colombia,La Guajira,11.4804,-72.4359,max,earthquake,8.02
+Colombia,Magdalena,10.2256,-74.2573,max,earthquake,6.56
+Colombia,Meta,3.3456,-72.9498,max,earthquake,9.07
+Colombia,Nariño,1.5622,-77.8674,max,earthquake,9.75
+Colombia,Norte de Santander,8.0924,-72.8886,max,earthquake,8.15
+Colombia,Putumayo,0.4648,-75.8643,max,earthquake,7.79
+Colombia,Quindio,4.4546,-75.6896,max,earthquake,8.2
+Colombia,Risaralda,5.0836,-75.8381,max,earthquake,8.59
+Colombia,Santander,6.6928,-73.4857,max,earthquake,8.67
+Colombia,Sucre,9.0593,-75.1068,max,earthquake,7.88
+Colombia,Tolima,4.0358,-75.2529,max,earthquake,8.67
+Colombia,Valle del Cauca,3.8588,-76.5032,max,earthquake,9.3
+Colombia,Vaupés,0.6452,-70.5743,max,earthquake,7.13
+Colombia,Vichada,4.7168,-69.4107,max,earthquake,6.77
+DR Congo,Bas-Uele,3.6238,25.144,max,earthquake,4.37
+DR Congo,Equateur,0.2321,18.9179,max,earthquake,6.93
+DR Congo,Haut-Katanga,-10.48,27.8182,max,earthquake,7.12
+DR Congo,Haut-Lomami,-8.2368,25.4296,max,earthquake,6.35
+DR Congo,Haut-Uele,3.3351,28.5878,max,earthquake,5.7
+DR Congo,Ituri,1.7456,29.4375,max,earthquake,7.84
+DR Congo,Kasaï,-4.9374,21.1087,max,earthquake,4.3
+DR Congo,Kasaï-Central,-6.2268,22.4903,max,earthquake,4.04
+DR Congo,Kasaï-Oriental,-6.1473,23.5163,max,earthquake,4.27
+DR Congo,Kinshasa,-4.4385,15.8966,max,earthquake,0.0
+DR Congo,Kongo-Central,-5.282,14.3176,max,earthquake,0.0
+DR Congo,Kwango,-6.422,17.854,max,earthquake,0.0
+DR Congo,Kwilu,-4.7825,18.6562,max,earthquake,0.0
+DR Congo,Lomami,-6.2074,24.689,max,earthquake,6.61
+DR Congo,Lualaba,-9.835,23.8948,max,earthquake,6.21
+DR Congo,Maniema,-3.0847,26.4262,max,earthquake,8.24
+DR Congo,Maï-Ndombe,-2.6987,18.523,max,earthquake,0.0
+DR Congo,Mongala,2.0981,21.5161,max,earthquake,6.24
+DR Congo,Nord-Kivu,-0.6174,28.6655,max,earthquake,8.4
+DR Congo,Nord-Ubangi,3.8713,21.0627,max,earthquake,6.68
+DR Congo,Sankuru,-3.4837,23.6076,max,earthquake,6.82
+DR Congo,Sud-Kivu,-3.1841,28.171,max,earthquake,8.31
+DR Congo,Sud-Ubangi,3.0899,19.3529,max,earthquake,6.68
+DR Congo,Tanganyika,-6.5571,28.0314,max,earthquake,8.4
+DR Congo,Tshopo,0.4811,25.2071,max,earthquake,6.84
+DR Congo,Tshuapa,-0.6677,21.7526,max,earthquake,5.68
+Ethiopia,Addis Ababa,8.9774,38.7812,max,earthquake,4.79
+Ethiopia,Afar,12.0131,40.7637,max,earthquake,8.13
+Ethiopia,Amhara,11.5634,38.0458,max,earthquake,7.94
+Ethiopia,Benishangul Gumz,10.5057,35.448,max,earthquake,4.06
+Ethiopia,Dire Dawa,9.6057,41.9992,max,earthquake,5.85
+Ethiopia,Gambela,7.7043,34.3344,max,earthquake,5.28
+Ethiopia,Harari,9.2941,42.1789,max,earthquake,5.34
+Ethiopia,Oromia,7.511,38.7661,max,earthquake,8.26
+Ethiopia,SNNP,6.285,37.1923,max,earthquake,8.14
+Ethiopia,Sidama,6.6661,38.5494,max,earthquake,7.48
+Ethiopia,Somali,6.9251,43.3254,max,earthquake,7.48
+Ethiopia,South West Ethiopia,6.7572,35.9124,max,earthquake,6.34
+Ethiopia,Tigray,13.7548,38.4472,max,earthquake,7.83
+Haiti,Artibonite,19.3342,-72.5669,max,earthquake,7.78
+Haiti,Centre,19.0099,-71.9855,max,earthquake,7.5
+Haiti,Grande'Anse,18.5014,-74.1415,max,earthquake,7.74
+Haiti,Nippes,18.4368,-73.3914,max,earthquake,7.74
+Haiti,North,19.5941,-72.2917,max,earthquake,7.33
+Haiti,North-East,19.5108,-71.8929,max,earthquake,6.49
+Haiti,North-West,19.8206,-73.0306,max,earthquake,7.78
+Haiti,South,18.2837,-73.7166,max,earthquake,7.74
+Haiti,South-East,18.259,-72.3784,max,earthquake,9.06
+Haiti,West,18.5771,-72.4452,max,earthquake,9.06
+Mali,Bamako,12.6215,-7.9826,max,earthquake,0.0
+Mali,Gao,16.8291,0.1441,max,earthquake,0.0
+Mali,Kayes,13.871,-10.2317,max,earthquake,4.54
+Mali,Kidal,19.4639,1.0888,max,earthquake,0.0
+Mali,Koulikoro,13.6095,-7.6449,max,earthquake,0.0
+Mali,Menaka,16.7087,2.8249,max,earthquake,0.0
+Mali,Mopti,14.693,-3.5504,max,earthquake,0.0
+Mali,Sikasso,11.4374,-6.5509,max,earthquake,0.0
+Mali,Ségou,13.8097,-5.7047,max,earthquake,0.0
+Mali,Tombouctou,20.0485,-3.6074,max,earthquake,0.0
+Mozambique,Cabo Delgado,-12.4644,39.3595,max,earthquake,5.81
+Mozambique,Gaza,-23.3153,32.8005,max,earthquake,8.37
+Mozambique,Inhambane,-22.8164,34.5052,max,earthquake,9.03
+Mozambique,Manica,-19.0267,33.4287,max,earthquake,9.03
+Mozambique,Maputo,-25.5319,32.4544,max,earthquake,5.02
+Mozambique,Maputo City,-25.9531,32.6224,max,earthquake,4.46
+Mozambique,Nampula,-14.9627,39.2446,max,earthquake,4.5
+Mozambique,Niassa,-13.0959,36.565,max,earthquake,6.55
+Mozambique,Sofala,-19.0613,34.6669,max,earthquake,7.67
+Mozambique,Tete,-15.5179,32.7567,max,earthquake,5.93
+Mozambique,Zambezia,-16.6542,36.9807,max,earthquake,7.35
+Myanmar,Ayeyarwady,16.8959,95.1269,max,earthquake,7.65
+Myanmar,Bago,18.3043,96.1118,max,earthquake,9.78
+Myanmar,Chin,22.1584,93.5119,max,earthquake,9.03
+Myanmar,Kachin,26.0734,97.3315,max,earthquake,9.87
+Myanmar,Kayah,19.2347,97.3674,max,earthquake,7.74
+Myanmar,Kayin,17.1629,97.7747,max,earthquake,8.04
+Myanmar,Magway,20.4791,94.8188,max,earthquake,9.03
+Myanmar,Mandalay,21.5477,95.9476,max,earthquake,9.35
+Myanmar,Mon,16.4063,97.5919,max,earthquake,8.11
+Myanmar,Nay Pyi Taw,19.8454,96.148,max,earthquake,8.14
+Myanmar,Rakhine,19.7315,93.7366,max,earthquake,7.77
+Myanmar,Sagaing,24.1698,95.3221,max,earthquake,9.96
+Myanmar,Shan,21.7162,98.1118,max,earthquake,10.32
+Myanmar,Tanintharyi,12.6965,98.758,max,earthquake,5.71
+Myanmar,Yangon,16.9769,96.1616,max,earthquake,8.74
+Somalia,Bakool,4.2097,43.9515,max,earthquake,0.0
+Somalia,Banadir,2.1208,45.4375,max,earthquake,0.0
+Somalia,Bari,10.2193,50.0485,max,earthquake,7.32
+Somalia,Bay,2.6562,43.5673,max,earthquake,0.0
+Somalia,Galgaduud,5.1024,46.7804,max,earthquake,0.0
+Somalia,Gedo,2.8895,41.9751,max,earthquake,4.06
+Somalia,Hiraan,4.2109,45.4764,max,earthquake,0.0
+Somalia,Lower Juba,0.0924,41.7917,max,earthquake,4.51
+Somalia,Lower Shabelle,1.9083,44.3299,max,earthquake,0.0
+Somalia,Middle Juba,1.222,42.5408,max,earthquake,0.0
+Somalia,Middle Shabelle,3.0308,46.0141,max,earthquake,0.0
+Somalia,Mudug,6.3766,48.1513,max,earthquake,0.0
+Somalia,Nugaal,8.1094,48.9147,max,earthquake,4.12
+Somalia,Sanaag,10.2045,48.9919,max,earthquake,4.39
+Somalia,Sool,9.1087,48.8371,max,earthquake,4.14
+South Sudan,Central Equatoria,4.7663,31.1947,max,earthquake,9.14
+South Sudan,Eastern Equatoria,4.9085,33.5044,max,earthquake,9.14
+South Sudan,Jonglei,7.3942,32.3123,max,earthquake,7.49
+South Sudan,Lakes,6.6352,29.9333,max,earthquake,7.27
+South Sudan,Northern Bahr el Ghazal,8.8717,27.0327,max,earthquake,0.0
+South Sudan,Unity,8.8956,29.9007,max,earthquake,5.57
+South Sudan,Upper Nile,9.881,32.7795,max,earthquake,5.2
+South Sudan,Warrap,8.1243,28.7264,max,earthquake,5.05
+South Sudan,Western Bahr el Ghazal,8.2107,26.2277,max,earthquake,0.0
+South Sudan,Western Equatoria,5.5491,28.6769,max,earthquake,6.78
+State of Palestine,Gaza Strip,31.4005,34.3611,max,earthquake,5.57
+State of Palestine,West Bank,31.9432,35.2524,max,earthquake,7.7
+Sudan,Abyei PCA,9.7833,27.8417,max,earthquake,0.0
+Sudan,Aj Jazirah,14.5871,33.2776,max,earthquake,4.58
+Sudan,Blue Nile,11.3108,34.1189,max,earthquake,0.0
+Sudan,Central Darfur,12.4018,23.3648,max,earthquake,0.0
+Sudan,East Darfur,11.0297,26.4097,max,earthquake,0.0
+Sudan,Gedaref,14.1634,35.0925,max,earthquake,4.43
+Sudan,Kassala,15.8409,35.8452,max,earthquake,5.08
+Sudan,Khartoum,15.8491,32.8418,max,earthquake,5.37
+Sudan,North Darfur,16.2154,25.5508,max,earthquake,0.0
+Sudan,North Kordofan,14.8453,29.7604,max,earthquake,6.75
+Sudan,Northern,19.547,29.3257,max,earthquake,4.18
+Sudan,Red Sea,19.6001,35.7191,max,earthquake,7.48
+Sudan,River Nile,18.3296,33.463,max,earthquake,4.23
+Sudan,Sennar,12.9093,34.0397,max,earthquake,0.0
+Sudan,South Darfur,11.0092,24.4214,max,earthquake,0.0
+Sudan,South Kordofan,11.3154,30.815,max,earthquake,6.01
+Sudan,West Darfur,13.5256,22.6155,max,earthquake,0.0
+Sudan,West Kordofan,11.9085,28.39,max,earthquake,0.0
+Sudan,White Nile,13.3861,32.3132,max,earthquake,5.17
+Syrian Arab Republic,Al-Hasakeh,36.4919,40.8957,max,earthquake,6.35
+Syrian Arab Republic,Aleppo,36.2135,37.6371,max,earthquake,6.68
+Syrian Arab Republic,Ar-Raqqa,36.0078,38.9939,max,earthquake,5.68
+Syrian Arab Republic,As-Sweida,32.7507,36.8443,max,earthquake,5.46
+Syrian Arab Republic,Damascus,33.5208,36.2708,max,earthquake,5.52
+Syrian Arab Republic,Dar'a,32.8547,36.2238,max,earthquake,5.75
+Syrian Arab Republic,Deir-ez-Zor,35.1438,40.3082,max,earthquake,6.51
+Syrian Arab Republic,Hama,35.2214,37.2131,max,earthquake,6.31
+Syrian Arab Republic,Homs,34.4761,38.3644,max,earthquake,6.72
+Syrian Arab Republic,Idleb,35.7758,36.6867,max,earthquake,5.91
+Syrian Arab Republic,Lattakia,35.565,36.029,max,earthquake,6.6
+Syrian Arab Republic,Quneitra,33.1324,35.8909,max,earthquake,5.6
+Syrian Arab Republic,Rural Damascus,33.4943,37.3854,max,earthquake,6.75
+Syrian Arab Republic,Tartous,34.9627,36.077,max,earthquake,6.86
+Ukraine,Autonomous Republic of Crimea,46.1875,33.6458,max,earthquake,5.3
+Ukraine,Cherkaska,49.2618,31.3606,max,earthquake,0.0
+Ukraine,Chernihivska,51.3497,32.0097,max,earthquake,0.0
+Ukraine,Chernivetska,48.2683,25.9649,max,earthquake,6.59
+Ukraine,Dnipropetrovska,48.3002,34.8457,max,earthquake,0.0
+Ukraine,Donetska,48.0518,37.6721,max,earthquake,4.54
+Ukraine,Ivano-Frankivska,48.7048,24.6227,max,earthquake,6.56
+Ukraine,Kharkivska,49.6094,36.5013,max,earthquake,0.0
+Ukraine,Khersonska,46.6861,33.5858,max,earthquake,5.6
+Ukraine,Khmelnytska,49.5103,26.9304,max,earthquake,6.28
+Ukraine,Kirovohradska,48.472,32.0781,max,earthquake,0.0
+Ukraine,Kyiv,50.4523,30.543,max,earthquake,0.0
+Ukraine,Kyivska,50.2886,30.4592,max,earthquake,0.0
+Ukraine,Luhanska,48.9778,39.0094,max,earthquake,0.0
+Ukraine,Lvivska,49.7163,23.9198,max,earthquake,4.08
+Ukraine,Mykolaivska,47.4494,31.7847,max,earthquake,4.77
+Ukraine,Odeska,46.7483,29.871,max,earthquake,7.33
+Ukraine,Poltavska,49.7307,33.78,max,earthquake,0.0
+Ukraine,Rivnenska,51.0357,26.3858,max,earthquake,0.0
+Ukraine,Sumska,51.0964,34.1094,max,earthquake,0.0
+Ukraine,Ternopilska,49.4007,25.651,max,earthquake,6.24
+Ukraine,Vinnytska,48.9199,28.6868,max,earthquake,6.29
+Ukraine,Volynska,51.1875,24.8769,max,earthquake,0.0
+Ukraine,Zakarpatska,48.407,23.282,max,earthquake,6.36
+Ukraine,Zaporizka,47.2753,35.7,max,earthquake,5.18
+Ukraine,Zhytomyrska,50.6317,28.4716,max,earthquake,0.0
+Venezuela,Amazonas,3.3706,-65.9486,max,earthquake,0.0
+Venezuela,Anzoátegui,8.9409,-64.4267,max,earthquake,8.41
+Venezuela,Apure,7.1347,-68.804,max,earthquake,8.18
+Venezuela,Aragua,9.9724,-67.1363,max,earthquake,8.4
+Venezuela,Barinas,8.1485,-69.8521,max,earthquake,7.45
+Venezuela,Bolívar,6.2418,-63.5345,max,earthquake,5.4
+Venezuela,Carabobo,10.1682,-68.0192,max,earthquake,7.28
+Venezuela,Cojedes,9.3386,-68.3521,max,earthquake,6.12
+Venezuela,Delta Amacuro,8.7713,-61.3279,max,earthquake,7.09
+Venezuela,Distrito Capital,10.4759,-66.9846,max,earthquake,7.69
+Venezuela,Falcón,11.0663,-69.7791,max,earthquake,7.41
+Venezuela,Guárico,8.822,-66.531,max,earthquake,6.59
+Venezuela,La Guaira,10.5448,-66.8557,max,earthquake,8.4
+Venezuela,Lara,10.1433,-69.7837,max,earthquake,8.1
+Venezuela,Miranda,10.2338,-66.3863,max,earthquake,7.86
+Venezuela,Monagas,9.4086,-63.0234,max,earthquake,8.56
+Venezuela,Mérida,8.5099,-71.2614,max,earthquake,7.65
+Venezuela,Nueva Esparta,10.99,-64.0571,max,earthquake,7.47
+Venezuela,Portuguesa,9.018,-69.2684,max,earthquake,7.84
+Venezuela,Sucre,10.4123,-63.3674,max,earthquake,8.9
+Venezuela,Trujillo,9.4436,-70.511,max,earthquake,7.53
+Venezuela,Táchira,7.8979,-72.018,max,earthquake,7.9
+Venezuela,Yaracuy,10.2651,-68.7366,max,earthquake,6.76
+Venezuela,Zulia,9.8934,-72.0849,max,earthquake,8.02
+Yemen,Abyan,13.7017,46.1568,max,earthquake,5.1
+Yemen,Ad Dali',13.8998,44.7645,max,earthquake,6.01
+Yemen,Aden,12.8393,44.8155,max,earthquake,4.7
+Yemen,Al Bayda,14.3203,45.3431,max,earthquake,6.53
+Yemen,Al Hodeidah,14.815,43.1858,max,earthquake,5.81
+Yemen,Al Jawf,16.6155,45.5975,max,earthquake,5.54
+Yemen,Al Maharah,16.7357,51.5745,max,earthquake,5.76
+Yemen,Al Mahwit,15.3739,43.5413,max,earthquake,6.15
+Yemen,Amran,16.1671,43.9003,max,earthquake,7.31
+Yemen,Dhamar,14.5977,44.2003,max,earthquake,7.82
+Yemen,Hadramawt,16.6828,49.155,max,earthquake,5.43
+Yemen,Hajjah,16.0777,43.2702,max,earthquake,7.7
+Yemen,Ibb,14.0744,44.1718,max,earthquake,7.18
+Yemen,Lahj,13.1784,44.5468,max,earthquake,5.29
+Yemen,Ma'rib,15.4937,45.5172,max,earthquake,5.9
+Yemen,Raymah,14.6611,43.6759,max,earthquake,6.6
+Yemen,Sa'dah,17.0801,43.9188,max,earthquake,7.7
+Yemen,Sana'a,15.3322,44.3463,max,earthquake,6.81
+Yemen,Sana'a City,15.4333,44.2267,max,earthquake,6.0
+Yemen,Shabwah,14.7604,46.9257,max,earthquake,5.18
+Yemen,Socotra,12.4951,53.8256,max,earthquake,6.41
+Yemen,Ta'iz,13.414,43.7809,max,earthquake,5.52
