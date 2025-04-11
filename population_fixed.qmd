@@ -1,0 +1,178 @@
+---
+format:
+  html:
+    code-fold: true
+    code-tools: false
+    echo: true   
+    warning: false 
+    message: false 
+jupyter: "base"
+---
+
+
+```{python}
+import pandas as pd
+import plotly.express as px
+
+# Load dataset
+df = pd.read_csv("cleaned_data/Merged_Earthquake_Data.csv")
+
+# Remove rows with missing coordinates, deaths, or magnitude
+df = df[(df["Latitude"].notna()) &
+        (df["Longitude"].notna()) &
+        (df["Total Deaths"].notna()) &
+        (df["Mag"].notna())]
+
+# Fill missing fatalities with 0 (just in case)
+df["Total Deaths"] = df["Total Deaths"].fillna(0)
+
+# Convert Year to string for animation
+df["Year"] = df["Year"].astype(str)
+
+# Plot dynamic map
+fig = px.scatter_mapbox(
+    df,
+    lat="Latitude",
+    lon="Longitude",
+    color="Total Deaths",          # Color represents number of deaths
+    size="Mag",                    # Circle size reflects earthquake magnitude
+    size_max=15,
+    hover_name="country",
+    hover_data={
+        "Year": True,
+        "Total Deaths": True,
+        "Mag": True,
+        "Latitude": False,
+        "Longitude": False
+    },
+    animation_frame="Year",        # Add time slider by year
+    zoom=1,
+    height=700,
+    mapbox_style="carto-positron",
+    title="Dynamic Map: Earthquake Fatalities by Location and Year"
+)
+
+# Layout adjustments
+fig.update_layout(margin=dict(l=0, r=0, t=50, b=0))
+
+# Show plot
+fig.show()
+
+```
+
+
+```{python}
+import pandas as pd
+import plotly.graph_objects as go
+
+# Load dataset
+df = pd.read_csv("cleaned_data/Merged_Earthquake_Data.csv")
+
+# Filter out missing years
+df = df[df["Year"].notna()]
+
+# Group by year and sum relevant columns
+yearly = df.groupby("Year").agg({
+    "Total Deaths": "sum",
+    "Total Injuries": "sum",
+    "Total Missing": "sum"
+}).reset_index()
+
+# Fill NaNs with 0
+yearly = yearly.fillna(0)
+
+# Create the figure
+fig = go.Figure()
+
+# Add each line
+fig.add_trace(go.Scatter(
+    x=yearly["Year"],
+    y=yearly["Total Deaths"],
+    mode='lines+markers',
+    name='Total Deaths'
+))
+
+fig.add_trace(go.Scatter(
+    x=yearly["Year"],
+    y=yearly["Total Injuries"],
+    mode='lines+markers',
+    name='Total Injuries'
+))
+
+fig.add_trace(go.Scatter(
+    x=yearly["Year"],
+    y=yearly["Total Missing"],
+    mode='lines+markers',
+    name='Total Missing'
+))
+
+# Update layout for style
+fig.update_layout(
+    title="Trends in Human Impact of Earthquakes by Year",
+    xaxis_title="Year",
+    yaxis_title="Number of People",
+    height=600,
+    template="plotly_white",
+    legend_title="Impact Type"
+)
+
+# Show the chart
+fig.show()
+
+```
+
+```{python}
+import pandas as pd
+import plotly.graph_objects as go
+
+# Load datasets
+df_eq = pd.read_csv("cleaned_data/Merged_Earthquake_Data.csv")
+df_pop = pd.read_csv("cleaned_data/population_density_cleaned.csv")
+
+# Clean and aggregate earthquake deaths by year
+eq_yearly = df_eq.groupby("Year")["Total Deaths"].sum().reset_index()
+eq_yearly = eq_yearly[eq_yearly["Year"].notna()]
+eq_yearly["Total Deaths"] = eq_yearly["Total Deaths"].fillna(0)
+
+# Compute average global population density per year
+pop_yearly = df_pop.groupby("Year")["Population Density"].mean().reset_index()
+
+# Merge both datasets on Year
+df_combined = pd.merge(eq_yearly, pop_yearly, on="Year", how="inner")
+
+# Create dual-axis plot
+fig = go.Figure()
+
+# Left Y-axis: total deaths
+fig.add_trace(go.Scatter(
+    x=df_combined["Year"],
+    y=df_combined["Total Deaths"],
+    name="Total Deaths",
+    mode="lines+markers",
+    yaxis="y1"
+))
+
+# Right Y-axis: average population density
+fig.add_trace(go.Scatter(
+    x=df_combined["Year"],
+    y=df_combined["Population Density"],
+    name="Avg. Global Population Density",
+    mode="lines+markers",
+    yaxis="y2"
+))
+
+# Update layout
+fig.update_layout(
+    title="Earthquake Fatalities vs. Global Population Density Over Time",
+    xaxis=dict(title="Year"),
+    yaxis=dict(title="Total Deaths", side="left"),
+    yaxis2=dict(title="Avg. Population Density (people/km²)", overlaying="y", side="right"),
+    height=600,
+    template="plotly_white",
+    legend=dict(x=0.01, y=0.99)
+)
+
+# Show plot
+fig.show()
+
+```
