@@ -1,0 +1,258 @@
+---
+title: "Japan vs Napel"
+author: "Hailun Ma"
+format:
+  html:
+    toc: true
+execute:
+  warning: false
+jupyter: python3
+---
+
+## Step 1
+Find out the region with earthqake in Japan (for example 2005)
+```{python}
+import pandas as pd
+
+quake_df = pd.read_csv("cleaned_data/Merged_Earthquake_Data.csv")
+
+quake_2005_japan = quake_df[
+    (quake_df["country"].str.contains("Japan", case=False, na=False)) &
+    (quake_df["Year"] == 2005)
+]
+
+quake_2005_japan["city"] = quake_2005_japan["city"].astype(str)
+quake_2005_japan["city_clean"] = quake_2005_japan["city"].str.upper().str.extract(r"([A-Z]+)")
+
+print("2005 earthquake in Japan：")
+print(quake_2005_japan["city_clean"].value_counts())
+
+```
+Generally, east corresponds to Miyagi, Fukushima, Ibaraki, Chiba, etc. 
+## Step 2
+Compare local GDP between 2005-2007 to find out the trends and calculate the rate of change
+```{python}
+import pandas as pd
+import plotly.express as px
+
+gdp_2005 = pd.read_csv("cleaned_data/2005_Japanese _prefectures.csv", skiprows=1)
+gdp_2007 = pd.read_csv("cleaned_data/2007_Japanese _prefectures.csv", skiprows=1)
+
+gdp_2005.columns = ["Prefecture", "Rank", "GDP_JPY_2005", "GDP_USD_2005", 
+                    "GDP_CNY_2005", "Share_2005"]
+gdp_2007.columns = ["Prefecture", "Rank", "GDP_JPY_2007", "GDP_USD_2007", 
+                    "GDP_CNY_2007", "Share_2007"]
+
+gdp_2005["Prefecture_clean"] = gdp_2005["Prefecture"].str.strip().str.upper()
+gdp_2007["Prefecture_clean"] = gdp_2007["Prefecture"].str.strip().str.upper()
+
+df = pd.merge(
+    gdp_2005[["Prefecture_clean", "Prefecture", "GDP_USD_2005"]],
+    gdp_2007[["Prefecture_clean", "GDP_USD_2007"]],
+    on="Prefecture_clean"
+)
+
+df["GDP_USD_2005"] = df["GDP_USD_2005"].str.replace(",", "").astype(float)
+df["GDP_USD_2007"] = df["GDP_USD_2007"].str.replace(",", "").astype(float)
+
+earthquake_prefectures = {"FUKUOKA", "TOKYO", "CHIBA", "IBARAKI", "MIYAGI", "FUKUSHIMA"}
+df["Earthquake_Affected"] = df["Prefecture_clean"].isin(earthquake_prefectures)
+
+df["GDP_Growth"] = df["GDP_USD_2007"] - df["GDP_USD_2005"]
+df["GDP_Growth_Rate"] = df["GDP_Growth"] / df["GDP_USD_2005"]
+
+quake_df = df[df["Earthquake_Affected"]].copy()
+quake_df = quake_df.sort_values(by="GDP_Growth_Rate")
+
+fig = px.bar(
+    quake_df,
+    x="Prefecture",
+    y="GDP_Growth_Rate",
+    title="Interactive GDP Growth Rate of Earthquake-Affected Prefectures (2005–2007)",
+    labels={"GDP_Growth_Rate": "GDP Growth Rate"},
+    text=quake_df["GDP_Growth_Rate"].apply(lambda x: f"{x*100:.1f}%"),
+    color_discrete_sequence=["tomato"]
+)
+
+fig.update_traces(textposition='outside')
+fig.update_layout(
+    yaxis_tickformat=".0%",
+    yaxis_title="GDP Growth Rate (%)",
+    xaxis_title="Prefecture",
+    title_font_size=16,
+    template="plotly_white"
+)
+
+fig.show()
+```
+### lets see if the local GDP will influence the national GDP
+
+
+## This is the Japan naational GDP trends from 2004-2010, 
+```{python}
+import pandas as pd
+import plotly.graph_objects as go
+
+gdp_global = pd.read_csv("cleaned_data/Global_GDP_cleaned.csv")
+
+japan_gdp = gdp_global[(gdp_global["Country Name"] == "Japan") &
+                       (gdp_global["Year"].between(2004, 2010))].copy()
+
+gdp_base = japan_gdp[japan_gdp["Year"] == 2005]["GDP"].values[0]
+japan_gdp["GDP Index (2005=100)"] = japan_gdp["GDP"] / gdp_base * 100
+
+fig = go.Figure()
+
+fig.add_trace(go.Scatter(
+    x=japan_gdp["Year"],
+    y=japan_gdp["GDP Index (2005=100)"],
+    mode='lines+markers+text',
+    text=[f"{val:.1f}" for val in japan_gdp["GDP Index (2005=100)"]],
+    textposition="top center",
+    line=dict(color="royalblue", width=3),
+    marker=dict(size=10),
+    name="Japan GDP Index (2005 = 100)",
+    hovertemplate="Year: %{x}<br>Index: %{y:.1f}<extra></extra>"
+))
+
+fig.add_vline(
+    x=2005,
+    line_dash="dash",
+    line_color="red",
+    annotation_text="Fukuoka Earthquake",
+    annotation_position="top right"
+)
+
+fig.update_layout(
+    title="Japan GDP Index and Fukuoka Earthquake (2004–2010)",
+    xaxis_title="Year",
+    yaxis_title="GDP Index (2005 = 100)",
+    template="plotly_white",
+    hovermode="x unified"
+)
+
+fig.show()
+```
+##
+ from the plot we can see that the GDP from 2005 appears decrease trends, it might incluenceed by the earthquake, but it soon increaseed since 2007, it indicates that Japan is a developed country with a diversified and disaster-resistant economy, so the effects of the earthquake will be resolved in a short period of time.
+
+```{python}
+import pandas as pd
+quake_df = pd.read_csv("cleaned_data/Merged_Earthquake_Data.csv")
+
+japan_quakes = quake_df[
+    quake_df["country"].str.contains("Japan", case=False, na=False)
+]
+
+japan_quake_years = japan_quakes["Year"].dropna().astype(int)
+
+japan_quake_years_sorted = sorted(japan_quake_years.unique())
+
+print("Japan Earthquake Years:", japan_quake_years_sorted)
+```
+## This is the over GDP trends, from 2004 to 2013
+```{python}
+import pandas as pd
+import plotly.graph_objects as go
+
+gdp_global = pd.read_csv("cleaned_data/Global_GDP_cleaned.csv")
+
+japan_gdp = gdp_global[(gdp_global["Country Name"] == "Japan") &
+                       (gdp_global["Year"].between(2004, 2018))].copy()
+
+gdp_base = japan_gdp[japan_gdp["Year"] == 2005]["GDP"].values[0]
+japan_gdp["GDP Index (2005=100)"] = japan_gdp["GDP"] / gdp_base * 100
+
+fig = go.Figure()
+
+fig.add_trace(go.Scatter(
+    x=japan_gdp["Year"],
+    y=japan_gdp["GDP Index (2005=100)"],
+    mode='lines+markers+text',
+    text=[f"{val:.1f}" for val in japan_gdp["GDP Index (2005=100)"]],
+    textposition="top center",
+    line=dict(color="steelblue", width=3),
+    marker=dict(size=10),
+    name="Japan GDP Index (2005 = 100)",
+    hovertemplate="Year: %{x}<br>Index: %{y:.1f}<extra></extra>"
+))
+
+quake_years = [2004, 2005, 2011, 2012, 2016]
+for year in quake_years:
+    fig.add_vline(
+        x=year,
+        line_dash="dash",
+        line_color="red",
+        annotation_text="Earthquake",
+        annotation_position="top right"
+    )
+
+fig.update_layout(
+    title="Japan GDP Index and Earthquake Years (2004–2018)",
+    xaxis_title="Year",
+    yaxis_title="GDP Index (2005 = 100)",
+    template="plotly_white",
+    hovermode="x unified"
+)
+
+fig.show()
+
+```
+## observation
+Based on the trend of GDP, we can see that even though Japan, as a developed country, has the ability to achieve economic recovery in a short period of time after an earthquake, the high frequency of earthquakes still has a considerable impact on the country's GDP, especially since Japan, as an island country, is subject to other natural disasters such as typhoons. Therefore, we can conclude that only developed countries with advanced economies and a low frequency of earthquakes do not experience significant fluctuations in GDP due to earthquakes.
+
+## Step 2:
+###  backward country comparisons.
+
+There is a lack of annual GDP statistics for each of Nepal's provinces on the web, but given that Nepal has only seven provinces and is about 40% the size of Florida, the impact of natural disasters on local GDP is more or less reflected in national GDP.
+```{python}
+import pandas as pd
+import plotly.graph_objects as go
+
+gdp_global = pd.read_csv("cleaned_data/Global_GDP_cleaned.csv")
+
+nepal_gdp = gdp_global[(gdp_global["Country Name"] == "Nepal") & 
+                       (gdp_global["Year"].between(2009, 2018))].copy()
+
+gdp_base = nepal_gdp[nepal_gdp["Year"] == 2015]["GDP"].values[0]
+nepal_gdp["GDP Index (2015=100)"] = nepal_gdp["GDP"] / gdp_base * 100
+
+fig = go.Figure()
+
+fig.add_trace(go.Scatter(
+    x=nepal_gdp["Year"],
+    y=nepal_gdp["GDP Index (2015=100)"],
+    mode='lines+markers+text',
+    text=[f"{val:.1f}" for val in nepal_gdp["GDP Index (2015=100)"]],
+    textposition="top center",
+    line=dict(color="seagreen", width=3),
+    marker=dict(size=10),
+    name="Nepal GDP Index (2015 = 100)",
+    hovertemplate="Year: %{x}<br>Index: %{y:.1f}<extra></extra>"
+))
+
+quake_years = [2011, 2015, 2016, 2017]
+for year in quake_years:
+    if year in nepal_gdp["Year"].values:
+        fig.add_vline(
+            x=year,
+            line_dash="dash",
+            line_color="red",
+            annotation_text="Earthquake",
+            annotation_position="top right"
+        )
+
+fig.update_layout(
+    title="Nepal GDP Index and Earthquake Years (2009–2018)",
+    xaxis_title="Year",
+    yaxis_title="GDP Index (2015 = 100)",
+    template="plotly_white",
+    hovermode="x unified"
+)
+
+fig.show()
+```
+##
+The graph shows that Nepal's GDP was rising steadily before the 2011 earthquake, but the 2011 earthquake had an impact on GDP, which grew very slowly and nearly stagnant for the next few years, and GDP was close to stagnation after the 2015 earthquake, but the GDP recovery accelerated after the 2016 earthquake due to commitments of more than $4 billion in aid from the United Nations, the World Bank, the Asian Development Bank, and others. and the Asian Development Bank pledged over $4 billion in aid, with project implementation mainly focused on the period from late 2016 to 2018, so this has helped Nepal's economic recovery greatly. 
+
+But overall, for a relatively backward country, earthquakes can have fluctuations in national gdp.
